@@ -9,6 +9,7 @@
         $selectedYear = $_GET['selectedYear'];
         $selectedMonth = $_GET['selectedMonth'];
 
+
         $dailyOrderData = getDailyOrderData($pdo, $selectedYear, $selectedMonth);
 
         echo json_encode($dailyOrderData);

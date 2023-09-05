@@ -35,7 +35,7 @@
     
 
     // 2. 일별 주문 데이터
-    function getdailyOrderData($pdo,$selectedYear, $selectedMonth) {
+    function getDailyOrderData($pdo,$selectedYear, $selectedMonth) {
         $query = "
         select 
             s.name as 세탁소명, 
@@ -135,17 +135,18 @@
         $query = "
         select id, password
         from members
-        where id = :username
-        limit 1;
+        where id = :username and password = :password
         ";
 
         $stmt = $pdo->prepare($query);
         $stmt->bindParam(":username", $username, PDO::PARAM_STR);
+        $stmt->bindParam(":password", $password, PDO::PARAM_STR);
         $stmt->execute();
 
+        // FETCH_ASSOC 쿼리 결과가 없는 경우 false를 return
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if ($user && password_verify($password, $user['password'])) {
+        if ($user) {
             return true; // 사용자 인증 성공
         } else {
             return false; // 인증 실패
